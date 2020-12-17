@@ -1,10 +1,9 @@
 
 
-var playerName = window.prompt("What is your robot's name?");
-var playerHealth = 100;
-var playerAttack = 10;
-var playerMoney = 10;
-
+    var playerName = window.prompt("What is your robot's name?");
+    var playerHealth = 100;
+    var playerAttack = 10;
+    var playerMoney = 10;
 // You can also log multiple values at once like this
 console.log(playerName, playerHealth, playerAttack);
 
@@ -67,18 +66,10 @@ var fight = function (enemyName) {
 
 };
 
-// Play again function
-// Add alert to reset enemy robots and restore player health to inital value
-
-// Shop functionality
-// after enemyHealth is 0 add alert to ask if player would like to enter the shop. If yes then what would they like to do:
-// REFILL, UPGRADE, or LEAVE.
-
 var startGame = function () {
-    var playerName = window.prompt("What is your robot's name?");
-    var playerHealth = 100;
-    var playerAttack = 10;
-    var playerMoney = 10;
+    playerHealth = 100;
+    playerAttack = 10;
+    playerMoney = 10;
 
     for (var i = 0; i < enemyNames.length; i++) {
         if (playerHealth > 0) {
@@ -86,6 +77,12 @@ var startGame = function () {
             var pickedEnemyName = enemyNames[i];
             enemyHealth = 50;
             fight(pickedEnemyName);
+            if (playerHealth > 0 && i < enemyNames.length - 1) {
+                var storeConfirm = window.confirm("The fight is over, visit the store before the next round?")
+                if (storeConfirm) {
+                    shop();
+                }
+            }
         }
         else {
             window.alert("You have lost you robot in battle! Game Over!");
@@ -95,7 +92,7 @@ var startGame = function () {
     endGame();
 };
 
-var endGame = function() {
+var endGame = function () {
     window.alert("the game has now ended. Let's see how you did!");
 
     if (playerHealth > 0) {
@@ -107,11 +104,48 @@ var endGame = function() {
 
     var playAgainConfirm = window.confirm("Would you like to play again?");
 
-    if(playAgainConfirm) {
+    if (playAgainConfirm) {
         startGame();
     }
     else {
         window.alert("Thank you for playing Robot Gladiators!");
+    }
+};
+
+var shop = function () {
+    var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE to make a choice.");
+
+    switch (shopOptionPrompt) {
+        case "REFILL":
+        case "refill":
+            if (playerMoney >= 7) {
+                window.alert("Refilling player's health by 20 for 7 dollars.");
+                playerHealth = playerHealth + 20;
+                playerMoney = playerMoney - 7;
+            }
+            else {
+                window.alert("You don't have enough money!");
+            }
+            break;
+        case "UPGRADE":
+        case "upgrade":
+            if (playerMoney >= 7) {
+                window.alert("Upgrading player's attack by 6 for 7 dollars.");
+                playerAttack = playerAttack + 6;
+                playerMoney = playerMoney - 7;
+            }
+            else {
+                window.alert("You don't have enough money!");
+            }
+            break;
+        case "LEAVE":
+        case "leave":
+            window.alert("Leaving the store.");
+            break;
+        default:
+            window.alert("You did not pick a valid option. Try again.");
+            shop();
+            break;
     }
 };
 
