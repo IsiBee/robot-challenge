@@ -8,7 +8,8 @@ var startGame = function () {
             pickedEnemyObj.health = randomNumber(40, 60);
             console.log(pickedEnemyObj);
             fight(pickedEnemyObj);
-        }
+            }
+        
         else {
             break;
         }
@@ -64,10 +65,7 @@ var fight = function (enemy) {
         if (enemy.health <= 0) {
             window.alert(enemy.name + " has died!");
             playerInfo.money = playerInfo.money + 20;
-            var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
-            if (storeConfirm) {
-                shop();
-            }
+            shop();
             break;
         }
         else {
@@ -118,14 +116,23 @@ var shop = function () {
     }
 };
 
-
 var randomNumber = function (min, max) {
     var value = Math.floor(Math.random() * (max - min + 1) + min);
     return value;
 };
 
+var getPlayerName = function() {
+    var name = "";
+    while (name === "" || name === null){
+        name = prompt("What is your robot's name?");
+    }
+    console.log("Your robot's name is " + name);
+    return name;
+    
+}
+
 var playerInfo = {
-    name: window.prompt("What is your robot's name?"),
+    name: getPlayerName(),
     health: 100,
     attack: 10,
     money: 10,
