@@ -38,25 +38,31 @@ var endGame = function () {
     }
 };
 
+var fightOrSkip = function() {
+    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.")
+
+    if (!promptFight) {
+        window.alert("You need to provide a valid answer! Please try again.");
+        return fightOrSkip();
+    }
+
+    else if (promptFight.toLowerCase() === "skip"){
+        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+        if (confirmSkip) {
+            window.alert(playerInfo.name + "has chosen to skip this fight!")
+            playerInfo.money = Math.max(0, playerInfo.money - 10);
+            return true;
+        }
+    }
+    return false;
+}
+
 var fight = function (enemy) {
     while (enemy.health > 0 && playerInfo.health > 0) {
-        var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP to choose.");
-
-        if (promptFight === "skip" || promptFight === "SKIP") {
-            window.alert(playerInfo.name + " has chosen to skip the fight!");
-            var skipBattle = window.confirm("Does " + playerInfo.name + " really want to skip this round?");
-            if (skipBattle) {
-                window.alert(playerInfo.name + " elects to skip this battle.");
-                playerInfo.money = playerInfo.money - 10;
-                console.log("playerInfo.money", playerInfo.money);
-                shop();
-                break;
-            }
-            else {
-                fight();
-            }
-
+        if(fightOrSkip()){
+            break;
         }
+            
         //Subtract the value of playerInfo.attack from the value of enemy.health, and use that result to update the value in the enemy.health variable.
         var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
         enemy.health = Math.max(0, enemy.health - damage);
