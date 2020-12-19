@@ -26,13 +26,21 @@ var startGame = function () {
 var endGame = function () {
     window.alert("The game has now ended. Let's see how you did!");
 
-    if (playerInfo.health > 0) {
-        window.alert("Great job, you survived! Your score is " + playerInfo.money + ".");
+    var highScore = localStorage.getItem("highscore");
+    if (highScore === null) {
+        highScore = 0;
     }
-    else {
-        window.alert("You lost your robot in battle");
-    }
+    parseInt(highScore);
 
+    if(playerInfo.money > highScore){
+        localStorage.setItem("name", playerInfo.name);
+        localStorage.setItem("highscore",playerInfo.money);
+        window.alert(playerInfo.name + " set a new high score of " + playerInfo.money + "!");
+    }
+    else{
+        window.alert(playerInfo.name + " did not beat the highscore of " + highScore);
+    }
+ 
     var playAgainConfirm = window.confirm("Would you like to play again?");
 
     if (playAgainConfirm) {
@@ -54,7 +62,7 @@ var fightOrSkip = function () {
     else if (promptFight.toLowerCase() === "skip") {
         var confirmSkip = window.confirm("Are you sure you'd like to quit?");
         if (confirmSkip) {
-            window.alert(playerInfo.name + "has chosen to skip this fight!")
+            window.alert(playerInfo.name + " has chosen to skip this fight!")
             playerInfo.money = Math.max(0, playerInfo.money - 10);
             return true;
         }
